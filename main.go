@@ -12,10 +12,12 @@ func main() {
 	var nom = flag.String("nom", "", "Nom du contact")
 	var prenom = flag.String("prenom", "", "Prénom du contact")
 	var tel = flag.String("tel", "", "Numéro de téléphone")
+	var fichier = flag.String("fichier", "data/contacts.json", "Fichier JSON pour import/export")
 
 	flag.Parse()
 
 	ann := annuaire.NewAnnuaire()
+	ann.ChargerDepuisJSON(*fichier)
 
 	switch *action {
 	case "add":
@@ -61,7 +63,6 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Printf("Contact %s supprimé avec succès\n", *nom)
-
 	case "modifier":
 		if *nom == "" {
 			fmt.Println("Erreur: nom requis")
@@ -73,6 +74,23 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Printf("Contact %s modifié avec succès\n", *nom)
+	case "export":
+		err := ann.SauvegarderEnJSON(*fichier)
+		if err != nil {
+			fmt.Printf("Erreur lors de l'export: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("Contacts exportés vers %s\n", *fichier)
+	case "import":
+		err := ann.ChargerDepuisJSON(*fichier)
+		if err != nil {
+			fmt.Printf("Erreur lors de l'import: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("Contacts importés depuis %s\n", *fichier)
+		if *action != "" && *action != "list" && *action != "search" {
+			ann.SauvegarderEnJSON(*fichier)
+		}
 	case "":
 		flag.PrintDefaults()
 	default:

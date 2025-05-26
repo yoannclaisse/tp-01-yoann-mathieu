@@ -3,7 +3,6 @@ package annuaire
 import (
 	"encoding/json"
 	"errors"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -105,7 +104,7 @@ func (a *Annuaire) SauvegarderEnJSON(nomFichier string) error {
 		return err
 	}
 
-	return ioutil.WriteFile(nomFichier, data, 0644)
+	return os.WriteFile(nomFichier, data, 0644)
 }
 
 // ChargerDepuisJSON charge l'annuaire depuis un fichier JSON
@@ -114,7 +113,7 @@ func (a *Annuaire) ChargerDepuisJSON(nomFichier string) error {
 		return nil
 	}
 
-	data, err := ioutil.ReadFile(nomFichier)
+	data, err := os.ReadFile(nomFichier)
 	if err != nil {
 		return err
 	}
