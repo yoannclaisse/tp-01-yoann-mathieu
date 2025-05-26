@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	var action = flag.String("action", "", "Action à effectuer (ajouter)")
+	var action = flag.String("action", "", "Action to perform (add, list, search)")
 	var nom = flag.String("nom", "", "Nom du contact")
 	var prenom = flag.String("prenom", "", "Prénom du contact")
 	var tel = flag.String("tel", "", "Numéro de téléphone")
@@ -18,7 +18,7 @@ func main() {
 	ann := annuaire.NewAnnuaire()
 
 	switch *action {
-	case "ajouter":
+	case "add":
 		if *nom == "" || *prenom == "" || *tel == "" {
 			fmt.Println("Erreur: nom, prénom et téléphone requis")
 			os.Exit(1)
@@ -29,7 +29,27 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Printf("Contact %s %s ajouté avec succès\n", *prenom, *nom)
-
+	case "list":
+		contacts := ann.ListerContacts()
+		if len(contacts) == 0 {
+			fmt.Println("Aucun contact trouvé")
+		} else {
+			fmt.Println("Liste des contacts:")
+			for _, contact := range contacts {
+				fmt.Printf("- %s %s: %s\n", contact.Prenom, contact.Nom, contact.Telephone)
+			}
+		}
+	case "search":
+		if *nom == "" {
+			fmt.Println("Erreur: nom requis")
+			os.Exit(1)
+		}
+		contact, existe := ann.RechercherContact(*nom)
+		if existe {
+			fmt.Printf("Contact trouvé: %s %s - %s\n", contact.Prenom, contact.Nom, contact.Telephone)
+		} else {
+			fmt.Printf("Aucun contact trouvé avec le nom: %s\n", *nom)
+		}
 	case "":
 		flag.PrintDefaults()
 	default:

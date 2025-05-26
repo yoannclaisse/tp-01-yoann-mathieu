@@ -14,21 +14,23 @@ type Annuaire struct {
 	contacts map[string]Contact
 }
 
-// Crée un nouvel annuaire vide
+// Create empty annuaire
 func NewAnnuaire() *Annuaire {
 	return &Annuaire{
 		contacts: make(map[string]Contact),
 	}
 }
 
-// Ajoute un nouveau contact à l'annuaire
+// Add contact
 func (a *Annuaire) AjouterContact(nom, prenom, telephone string) error {
 	if nom == "" || prenom == "" || telephone == "" {
 		return errors.New("tous les champs sont requis")
 	}
 
-	if _, existe := a.contacts[nom]; existe {
-		return errors.New("un contact avec ce nom existe déjà")
+	for _, c := range a.contacts {
+		if c.Nom == nom && c.Telephone == telephone {
+			return errors.New("un contact avec ce nom et ce téléphone existe déjà")
+		}
 	}
 
 	a.contacts[nom] = Contact{
@@ -40,13 +42,13 @@ func (a *Annuaire) AjouterContact(nom, prenom, telephone string) error {
 	return nil
 }
 
-// Recherche un contact par nom
+// Search
 func (a *Annuaire) RechercherContact(nom string) (Contact, bool) {
 	contact, existe := a.contacts[nom]
 	return contact, existe
 }
 
-// Retourne tous les contacts
+// List contacts
 func (a *Annuaire) ListerContacts() []Contact {
 	contacts := make([]Contact, 0, len(a.contacts))
 	for _, contact := range a.contacts {
