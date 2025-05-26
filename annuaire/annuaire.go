@@ -1,6 +1,12 @@
 package annuaire
 
-import "errors"
+import (
+	"encoding/json"
+	"errors"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+)
 
 // Structure de contact
 type Contact struct {
@@ -85,4 +91,33 @@ func (a *Annuaire) ModifierContact(nom, nouveauPrenom, nouveauTelephone string) 
 
 func (a *Annuaire) NombreContacts() int {
 	return len(a.contacts)
+}
+
+// SauvegarderEnJSON sauvegarde l'annuaire dans un fichier JSON
+func (a *Annuaire) SauvegarderEnJSON(nomFichier string) error {
+	dir := filepath.Dir(nomFichier)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return err
+	}
+
+	data, err := json.MarshalIndent(a.contacts, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile(nomFichier, data, 0644)
+}
+
+// ChargerDepuisJSON charge l'annuaire depuis un fichier JSON
+func (a *Annuaire) ChargerDepuisJSON(nomFichier string) error {
+	if _, err := os.Stat(nomFichier); os.IsNotExist(err) {
+		return nil
+	}
+
+	data, err := ioutil.ReadFile(nomFichier)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(data, &a.contacts)
 }
