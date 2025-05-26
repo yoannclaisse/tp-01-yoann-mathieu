@@ -56,3 +56,33 @@ func (a *Annuaire) ListerContacts() []Contact {
 	}
 	return contacts
 }
+
+func (a *Annuaire) SupprimerContact(nom string) error {
+	if _, existe := a.contacts[nom]; !existe {
+		return errors.New("contact non trouvé")
+	}
+
+	delete(a.contacts, nom)
+	return nil
+}
+
+func (a *Annuaire) ModifierContact(nom, nouveauPrenom, nouveauTelephone string) error {
+	contact, existe := a.contacts[nom]
+	if !existe {
+		return errors.New("contact non trouvé")
+	}
+
+	if nouveauPrenom != "" {
+		contact.Prenom = nouveauPrenom
+	}
+	if nouveauTelephone != "" {
+		contact.Telephone = nouveauTelephone
+	}
+
+	a.contacts[nom] = contact
+	return nil
+}
+
+func (a *Annuaire) NombreContacts() int {
+	return len(a.contacts)
+}

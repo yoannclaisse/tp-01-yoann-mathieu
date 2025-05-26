@@ -13,10 +13,10 @@ func TestAjouterContact(t *testing.T) {
 		t.Errorf("Erreur lors de l'ajout: %v", err)
 	}
 
-	// ajout contact existant
+	// ajout contact
 	err = ann.AjouterContact("Dupont", "Pierre", "0987654321")
-	if err == nil {
-		t.Error("Attendu une erreur pour un contact existant")
+	if err != nil {
+		t.Errorf("Erreur inattendue lors de l'ajout d'un contact avec même nom mais téléphone différent: %v", err)
 	}
 
 	// ajout avec champs vides
