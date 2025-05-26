@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"tp1/annuaire"
+	"tp1/server"
 )
 
 func main() {
@@ -13,8 +14,14 @@ func main() {
 	var prenom = flag.String("prenom", "", "Prénom du contact")
 	var tel = flag.String("tel", "", "Numéro de téléphone")
 	var fichier = flag.String("fichier", "data/contacts.json", "Fichier JSON pour import/export")
+	var serveur = flag.Bool("serveur", false, "Lancer le serveur web")
 
 	flag.Parse()
+
+	if *serveur {
+		server.StartServer()
+		return
+	}
 
 	ann := annuaire.NewAnnuaire()
 	ann.ChargerDepuisJSON(*fichier)
