@@ -1,3 +1,3 @@
-module github.com/Mathieu-ai/TP1
+module tp1
 
 go 1.24.3
