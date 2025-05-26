@@ -50,6 +50,29 @@ func main() {
 		} else {
 			fmt.Printf("Aucun contact trouvé avec le nom: %s\n", *nom)
 		}
+	case "supprimer":
+		if *nom == "" {
+			fmt.Println("Erreur: nom requis")
+			os.Exit(1)
+		}
+		err := ann.SupprimerContact(*nom)
+		if err != nil {
+			fmt.Printf("Erreur: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("Contact %s supprimé avec succès\n", *nom)
+
+	case "modifier":
+		if *nom == "" {
+			fmt.Println("Erreur: nom requis")
+			os.Exit(1)
+		}
+		err := ann.ModifierContact(*nom, *prenom, *tel)
+		if err != nil {
+			fmt.Printf("Erreur: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("Contact %s modifié avec succès\n", *nom)
 	case "":
 		flag.PrintDefaults()
 	default:
