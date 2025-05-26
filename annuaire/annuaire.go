@@ -39,3 +39,18 @@ func (a *Annuaire) AjouterContact(nom, prenom, telephone string) error {
 
 	return nil
 }
+
+// Recherche un contact par nom
+func (a *Annuaire) RechercherContact(nom string) (Contact, bool) {
+	contact, existe := a.contacts[nom]
+	return contact, existe
+}
+
+// Retourne tous les contacts
+func (a *Annuaire) ListerContacts() []Contact {
+	contacts := make([]Contact, 0, len(a.contacts))
+	for _, contact := range a.contacts {
+		contacts = append(contacts, contact)
+	}
+	return contacts
+}
