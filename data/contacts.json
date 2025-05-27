@@ -1,7 +1,37 @@
-{
-    "Alice": {
-      "nom": "Alice",
-      "prenom": "Wonderland",
-      "telephone": "0123456789"
-    }
+[
+  {
+    "name": "Alice",
+    "first": "Wonderland",
+    "phone": "0123456789"
+  },
+  {
+    "name": "Martin",
+    "first": "Lucie",
+    "phone": "0678123456"
+  },
+  {
+    "name": "Bernard",
+    "first": "Jean",
+    "phone": "0654321876"
+  },
+  {
+    "name": "Petit",
+    "first": "Marie",
+    "phone": "0612345678"
+  },
+  {
+    "name": "Robert",
+    "first": "Paul",
+    "phone": "0698765432"
+  },
+  {
+    "name": "Richard",
+    "first": "Sophie",
+    "phone": "0634567890"
+  },
+  {
+    "name": "Dupont",
+    "first": "Pierre",
+    "phone": "0987654321"
   }
+]
